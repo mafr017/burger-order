@@ -26,11 +26,18 @@ export default function App() {
       return tempIngredients;
     })
   }
+  const removeIngredientsHandler = () => {
+    stackBurgerSet((prev) => {
+      let tempIngredients = [...prev];
+      tempIngredients.pop();
+      return tempIngredients;
+    })
+  }
 
   return (
     <div className="App">
       <h1>Order Burgers</h1>
-      <Layout addIngredients={addIngredientsHandler}>
+      <Layout addIngredients={addIngredientsHandler} removeIngredients={removeIngredientsHandler}>
         {stackBurger.slice(0).reverse().map((ingredient, i) => (
           <>
             {ingredient === "Bread" && <Bread key={i} />}

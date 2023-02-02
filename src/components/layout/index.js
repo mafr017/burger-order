@@ -1,4 +1,4 @@
-export default function Layout({ children, addIngredients}) {
+export default function Layout({ children, addIngredients, removeIngredients }) {
     // console.log(addIngredients);
     return (
         <main>
@@ -8,7 +8,7 @@ export default function Layout({ children, addIngredients}) {
                 <button onClick={() => addIngredients("Cheese")}>Add Cheese 🧀</button>
                 <button onClick={() => addIngredients("Lettuce")}>Add Lettuce 🥬</button>
                 <button onClick={() => addIngredients("Tomato")}>Add Tomato 🍅</button>
-                <button onClick={() => { }}>Remove Top Topping 🔝</button>
+                <button onClick={() => removeIngredients()}>Remove Top Topping 🔝</button>
             </div>
 
             <div className="stack-burgers">
