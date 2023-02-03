@@ -1,5 +1,5 @@
 /** Libs */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /** Components */
 import Layout from './components/layout';
@@ -13,16 +13,18 @@ import Bread from './components/burger/bread';
 import './App.css';
 
 export default function App() {
-  console.log("Mentee: Muhammad Aditya Fathur Rahman");
-
   // State  
   const [stackBurger, stackBurgerSet] = useState([]);
+  const [count, countSet] = useState(0);
+  const [total, totalSet] = useState(0);
+
+  // func
 
   // Handler
-  const addIngredientsHandler = (val) => {
+  const addIngredientsHandler = (value) => {
     stackBurgerSet((prev) => {
       let tempIngredients = [...prev];
-      tempIngredients.push(val);
+      tempIngredients.push(value);
       return tempIngredients;
     })
   }
@@ -33,18 +35,30 @@ export default function App() {
       return tempIngredients;
     })
   }
+  const summaryBurgerHandler = () => {
+    totalSet(stackBurger.reduce((summary, topping) => summary + topping.price, 0));
+  }
+
+  // useEffect
+  useEffect(() => {
+    console.log(`Count ${count} times`);
+    if (count < 1) {
+      addIngredientsHandler({ topping: "Bread", price: 1000 })
+      countSet(count + 1)
+    }
+  }, [count])
 
   return (
     <div className="App">
       <h1>Order Burgers</h1>
-      <Layout addIngredients={addIngredientsHandler} removeIngredients={removeIngredientsHandler}>
+      <Layout addIngredients={addIngredientsHandler} removeIngredients={removeIngredientsHandler} stackBurger={stackBurger} summaryOrder={summaryBurgerHandler} totalPrice={total} >
         {stackBurger.slice(0).reverse().map((ingredient, i) => (
           <>
-            {ingredient === "Bread" && <Bread key={i} />}
-            {ingredient === "Patty" && <Patty key={i} />}
-            {ingredient === "Cheese" && <Cheese key={i} />}
-            {ingredient === "Lettuce" && <Lettuce key={i} />}
-            {ingredient === "Tomato" && <Tomato key={i} />}
+            {ingredient.topping === "Bread" && <Bread key={i} />}
+            {ingredient.topping === "Patty" && <Patty key={i} />}
+            {ingredient.topping === "Cheese" && <Cheese key={i} />}
+            {ingredient.topping === "Lettuce" && <Lettuce key={i} />}
+            {ingredient.topping === "Tomato" && <Tomato key={i} />}
           </>
         ))}
       </Layout>
